@@ -8,7 +8,7 @@ deps:
 	conda install  -c numba/label/dev llvmlite
 	conda install numpy pyyaml colorama scipy jinja2 cffi ipython
 	conda install clang_osx-64 clangxx_osx-64
-	pip intsall pre-commit git-spindle
+	pip install pre-commit git-spindle
 	# conda install llvm-openmp intel-openmp
 
 clean:
