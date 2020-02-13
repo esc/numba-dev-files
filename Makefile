@@ -14,6 +14,9 @@ deps:
 n37:
 	conda create -n numba_3.7 python=3.7
 
+n38:
+	conda create -n numba_3.8 python=3.8
+
 clean:
 	git clean -dfX
 
