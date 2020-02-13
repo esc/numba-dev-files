@@ -11,6 +11,9 @@ deps:
 	pip install pre-commit git-spindle
 	# conda install llvm-openmp intel-openmp
 
+n37:
+	conda create -n numba_3.7 python=3.7
+
 clean:
 	git clean -dfX
 
