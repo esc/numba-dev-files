@@ -6,7 +6,7 @@ build:
 
 deps:
 	conda install  -c numba/label/dev llvmlite
-	conda install numpy pyyaml colorama scipy jinja2 cffi ipython 
+	conda install numpy pyyaml colorama scipy jinja2 cffi ipython flake8
 	conda install clang_osx-64 clangxx_osx-64
 	conda install -c conda-forge ipdb
 	pip install pre-commit git-spindle
