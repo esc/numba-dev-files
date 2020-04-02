@@ -12,6 +12,9 @@ deps:
 	pip install pre-commit git-spindle
 	# conda install llvm-openmp intel-openmp
 
+doc-deps:
+	conda install sphinx pygments numpydoc sphinx_rtd_theme
+
 n37:
 	conda create -n numba_3.7 python=3.7
 
