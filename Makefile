@@ -2,7 +2,7 @@
 .DEFAULT: build
 
 build:
-	python setup.py build_ext -i && python setup.py develop
+	python setup.py build_ext -i && python setup.py develop --no-deps
 
 deps:
 	conda install  -c numba/label/dev llvmlite
