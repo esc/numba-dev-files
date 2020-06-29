@@ -7,7 +7,8 @@ build:
 deps:
 	conda install  -c numba/label/dev llvmlite
 	conda install numpy pyyaml colorama scipy jinja2 cffi ipython flake8
-	conda install clang_osx-64 clangxx_osx-64
+	if [ "$(shell uname)" = "Darwin" ] ; then conda install clang_osx-64 clangxx_osx-64 ; fi
+	if [ "$(shell uname)" = "Linux" ] ; then conda install gcc_linux-64 gxx_linux-64 ; fi
 	conda install -c conda-forge ipdb
 	pip install pre-commit git-spindle
 	# conda install llvm-openmp intel-openmp
@@ -20,6 +21,9 @@ n37:
 
 n38:
 	conda create -n numba_3.8 python=3.8
+
+n36:
+	conda create -n numba_3.6 python=3.6
 
 clean:
 	git clean -dfX
