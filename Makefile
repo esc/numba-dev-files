@@ -4,6 +4,9 @@
 build:
 	python setup.py build_ext -i && python setup.py develop --no-deps
 
+conda-build:
+	conda build ${EXTRA_CHANNELS} --no-test --python=3.9 --numpy=1.17 buildscripts/condarecipe.local
+
 deps:
 	conda install  -c numba/label/dev llvmlite
 	conda install numpy pyyaml colorama scipy jinja2 cffi ipython flake8
