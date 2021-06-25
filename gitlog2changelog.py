@@ -1,9 +1,9 @@
 """gitlog2changelog.py
 
 Usage:
-  gitlog2changelog.py
   gitlog2changelog.py (-h | --help)
   gitlog2changelog.py --version
+  gitlog2changelog.py --beginning=<tag>
 
 Options:
   -h --help     Show this screen.
@@ -19,17 +19,20 @@ from docopt import docopt
 from github import Github
 
 
-def get_github_user_for_pr(pr_number):
+def get_pr(pr_number):
     ghrepo = Github("").get_repo("numba/numba")
-    return ghrepo.get_issue(pr_number)
+    return ghrepo.get_pull(pr_number)
 
+def hyperlink_user(user_obj):
+    return "`%s <%s>`_" % (user_obj.name
+                           if user_obj.name is not None
+                           else user_obj.login , user_obj.html_url)
 
 if __name__ == '__main__':
     arguments = docopt(__doc__, version='1.0')
-    beginning = "0.54.0dev0"
+    beginning = arguments['--beginning']
     repo = Repo('.')
-    rawgit = repo.git
-    all_commits = [x for x in repo.iter_commits('0.54.0dev0..HEAD')]
+    all_commits = [x for x in repo.iter_commits(f'{beginning}..HEAD')]
     merge_commits = [x for x in all_commits
                      if 'Merge pull request' in x.message]
     prmatch = re.compile('^Merge pull request #([0-9]{4}) from.*')
@@ -41,16 +44,22 @@ if __name__ == '__main__':
         if match:
             issue_id = match.groups()[0]
             ordered[issue_id] = "%s" % (x.message.splitlines()[2])
-    for x in all_commits:
-        authors.add(x.author.name)
-    print("Commits:")
+    print("Pull-Requests:\n")
     for k in sorted(ordered.keys()):
-        issue = get_github_user_for_pr(int(k))
-        hyperlink = "`#%s <%s>`_" % (k, issue.html_url)
-        user = "`%s <%s>`_" % (issue.user.name
-                               if issue.user.name is not None
-                               else issue.user.login , issue.user.html_url)
-        print("* PR %s: %s (%s)" % (hyperlink, ordered[k], user))
+        pull = get_pr(int(k))
+        hyperlink = "`#%s <%s>`_" % (k, pull.html_url)
+        # get all users for all commits
+        pr_authors = set()
+        for c in pull.get_commits():
+            if c.author:
+                pr_authors.add(c.author)
+            if c.committer and c.committer.login != "web-flow":
+                pr_authors.add(c.committer)
+        print("* PR %s: %s (%s)" % (hyperlink, ordered[k],
+                                    " ".join([hyperlink_user(u) for u in
+                                              pr_authors])))
+        #for x in all_commits:
+        #    authors.add(x.author.name)
     print("Total PRs: %s" % len(ordered))
     print("")
     print("Authors:")
