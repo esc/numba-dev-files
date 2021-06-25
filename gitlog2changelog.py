@@ -58,10 +58,11 @@ if __name__ == '__main__':
         print("* PR %s: %s (%s)" % (hyperlink, ordered[k],
                                     " ".join([hyperlink_user(u) for u in
                                               pr_authors])))
-        #for x in all_commits:
-        #    authors.add(x.author.name)
+        for a in pr_authors:
+            authors.add(a)
     print("Total PRs: %s" % len(ordered))
     print("")
     print("Authors:")
-    [print('* %s' % x) for x in sorted(authors)]
+    [print('* %s' % hyperlink_user(x)) for x in sorted(authors, key=lambda x:
+                                                       x.login)]
     print("Total authors: %s" % len(authors))
