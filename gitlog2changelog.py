@@ -60,9 +60,8 @@ if __name__ == '__main__':
                                               pr_authors])))
         for a in pr_authors:
             authors.add(a)
-    print("Total PRs: %s" % len(ordered))
-    print("")
-    print("Authors:")
+    print("\nTotal PRs: %s\n" % len(ordered))
+    print("Authors:\n")
     [print('* %s' % hyperlink_user(x)) for x in sorted(authors, key=lambda x:
                                                        x.login)]
-    print("Total authors: %s" % len(authors))
+    print("\nTotal authors: %s" % len(authors))
