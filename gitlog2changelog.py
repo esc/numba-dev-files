@@ -3,12 +3,13 @@
 Usage:
   gitlog2changelog.py (-h | --help)
   gitlog2changelog.py --version
-  gitlog2changelog.py --beginning=<tag>
+  gitlog2changelog.py --beginning=<tag> --repo=<repo>
 
 Options:
   -h --help     Show this screen.
   --version     Show version.
   --beginning=<tag> Where in the History to begin
+  --repo=<repo> Which repository to look at on GitHub
 
 """
 
@@ -19,24 +20,30 @@ from docopt import docopt
 from github import Github
 
 
+ghrepo = None
+
+
 def get_pr(pr_number):
-    ghrepo = Github("").get_repo("numba/numba")
     return ghrepo.get_pull(pr_number)
+
 
 def hyperlink_user(user_obj):
     return "`%s <%s>`_" % (user_obj.name
                            if user_obj.name is not None
-                           else user_obj.login , user_obj.html_url)
+                           else user_obj.login, user_obj.html_url)
+
 
 if __name__ == '__main__':
     arguments = docopt(__doc__, version='1.0')
     beginning = arguments['--beginning']
+    target_ghrepo = arguments['--repo']
+    ghrepo = Github("").get_repo(target_ghrepo)
     repo = Repo('.')
     all_commits = [x for x in repo.iter_commits(f'{beginning}..HEAD')]
     merge_commits = [x for x in all_commits
                      if 'Merge pull request' in x.message]
-    prmatch = re.compile('^Merge pull request #([0-9]{4}) from.*')
-    auth_id = re.compile('^Merge pull request #([0-9]{4}) from (.*)\/.*\\n.*')
+    prmatch = re.compile('^Merge pull request #([0-9]{3}) from.*')
+    auth_id = re.compile('^Merge pull request #([0-9]{3}) from (.*)\/.*\\n.*')
     ordered = {}
     authors = set()
     for x in merge_commits:
