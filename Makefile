@@ -25,6 +25,12 @@ n37:
 n38:
 	conda create -n numba_3.8 python=3.8
 
+n39:
+	conda create -n numba_3.9 python=3.9
+
+n310:
+	conda create -n numba_3.10 python=3.10
+
 n36:
 	conda create -n numba_3.6 python=3.6
 
