@@ -4,6 +4,9 @@
 build:
 	python setup.py build_ext -i && python setup.py develop --no-deps
 
+dbgbuild:
+	python setup.py build_ext -i --debug --noopt && python setup.py develop --no-deps
+
 conda-build:
 	conda build ${EXTRA_CHANNELS} --no-test --python=3.9 --numpy=1.16 buildscripts/condarecipe.local
 
