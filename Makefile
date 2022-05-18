@@ -31,6 +31,9 @@ n38:
 n39:
 	conda create -n numba_3.9 python=3.9
 
+cfn39:
+	conda create -n cf_numba_3.9 -c conda-forge python=3.9 gdb
+
 n310:
 	conda create -n numba_3.10 python=3.10
 
@@ -42,3 +45,6 @@ clean:
 
 test:
 	python -m numba.runtests -m 12
+
+test-individual:
+	for x in "$(shell ./runtests.py -l|grep ^numba)"; do ./runtests.py "$x"; done ;
