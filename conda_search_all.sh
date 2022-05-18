@@ -13,7 +13,7 @@
 #
 # $ ./conda_search_all.sh conda-forge::numpy=1.19
 
-all_archs=("linux-64" "linux-32" "osx-64" "win-64" "win-32" "linux-aarch64" "linux-armv7l" "linux-ppc64le")
+all_archs=("linux-64" "linux-32" "osx-64" "osx-arm64" "win-64" "win-32" "linux-aarch64" "linux-armv7l" "linux-ppc64le")
 for arch in ${all_archs[@]}
 do
     echo "--------------------------------------------------"
