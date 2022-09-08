@@ -3,13 +3,16 @@
 Usage:
   gitlog2changelog.py (-h | --help)
   gitlog2changelog.py --version
-  gitlog2changelog.py --beginning=<tag> --repo=<repo>
+  gitlog2changelog.py --token=<token> --beginning=<tag> --repo=<repo> --digits=<digits> [--summary]
 
 Options:
-  -h --help     Show this screen.
-  --version     Show version.
-  --beginning=<tag> Where in the History to begin
-  --repo=<repo> Which repository to look at on GitHub
+  -h --help          Show this screen.
+  --version          Show version.
+  --beginning=<tag>  Where in the History to begin
+  --repo=<repo>      Which repository to look at on GitHub
+  --token=<token>    The GitHub token to talk to the API
+  --digits=<digits>  The number of digits to use in the issue finding regex
+  --summary          Show total count for each section
 
 """
 
@@ -35,15 +38,19 @@ def hyperlink_user(user_obj):
 
 if __name__ == '__main__':
     arguments = docopt(__doc__, version='1.0')
+    breakpoint()
     beginning = arguments['--beginning']
     target_ghrepo = arguments['--repo']
-    ghrepo = Github("").get_repo(target_ghrepo)
+    github_token = arguments['--token']
+    regex_digits = arguments['--digits']
+    summary = arguments["--summary"]
+    ghrepo = Github(github_token).get_repo(target_ghrepo)
     repo = Repo('.')
     all_commits = [x for x in repo.iter_commits(f'{beginning}..HEAD')]
     merge_commits = [x for x in all_commits
                      if 'Merge pull request' in x.message]
-    prmatch = re.compile('^Merge pull request #([0-9]{3}) from.*')
-    auth_id = re.compile('^Merge pull request #([0-9]{3}) from (.*)\/.*\\n.*')
+    prmatch = re.compile(f'^Merge pull request #([0-9]{{{regex_digits}}}) from.*')
+    auth_id = re.compile(f'^Merge pull request #([0-9]{{{regex_digits}}}) from (.*)\/.*\\n.*')
     ordered = {}
     authors = set()
     for x in merge_commits:
@@ -67,8 +74,12 @@ if __name__ == '__main__':
                                               pr_authors])))
         for a in pr_authors:
             authors.add(a)
-    print("\nTotal PRs: %s\n" % len(ordered))
+    if summary:
+        print("\nTotal PRs: %s\n" % len(ordered))
+    else:
+        print()
     print("Authors:\n")
     [print('* %s' % hyperlink_user(x)) for x in sorted(authors, key=lambda x:
-                                                       x.login)]
-    print("\nTotal authors: %s" % len(authors))
+                                                       x.login.lower())]
+    if summary:
+        print("\nTotal authors: %s" % len(authors))
