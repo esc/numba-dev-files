@@ -8,7 +8,7 @@ dbgbuild:
 	python setup.py build_ext -i --debug --noopt && python setup.py develop --no-deps
 
 conda-build:
-	conda build ${EXTRA_CHANNELS} --no-test --python=3.9 --numpy=1.16 buildscripts/condarecipe.local
+	conda build ${EXTRA_CHANNELS} --no-test --python=3.11 --numpy=1.21 buildscripts/condarecipe.local
 
 deps:
 	conda install  -c numba/label/dev llvmlite
