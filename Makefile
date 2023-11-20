@@ -27,8 +27,6 @@ deps:
 doc-deps:
 	conda install sphinx pygments numpydoc sphinx_rtd_theme
 
-n37:
-	conda create -n numba_3.7 python=3.7
 
 n38:
 	conda create -n numba_3.8 python=3.8
@@ -47,9 +45,6 @@ n311:
 
 n312:
 	conda create -n numba_3.12 python=3.12
-
-n36:
-	conda create -n numba_3.6 python=3.6
 
 clean:
 	git clean -dfX
