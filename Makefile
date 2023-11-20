@@ -42,6 +42,9 @@ n310:
 n311:
 	conda create -n numba_3.11 python=3.11
 
+n312:
+	conda create -n numba_3.12 python=3.12
+
 n36:
 	conda create -n numba_3.6 python=3.6
 
