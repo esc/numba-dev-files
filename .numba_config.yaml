@@ -1,3 +1,4 @@
 debug: 0
-developer_mode: 1
+developer_mode: 0
+dump_llvm: 0
 color_scheme: dark_bg
