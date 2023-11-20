@@ -39,6 +39,9 @@ cfn39:
 n310:
 	conda create -n numba_3.10 python=3.10
 
+n311:
+	conda create -n numba_3.11 python=3.11
+
 n36:
 	conda create -n numba_3.6 python=3.6
 
