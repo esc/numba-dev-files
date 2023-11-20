@@ -2,6 +2,9 @@
 .DEFAULT: build
 
 build:
+	python -m pip install -vv -e .
+
+build-setup.py:
 	python setup.py build_ext -i && python setup.py develop --no-deps
 
 dbgbuild:
