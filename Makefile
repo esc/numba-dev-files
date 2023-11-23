@@ -97,6 +97,10 @@ clean:
 test:
 	python -m numba.runtests -m 12
 
+# POST - Power On Self Test -- a sanity check
+POST:
+	python -m numba.misc.POST
+
 # Run each test on it's own.
 test-individual:
 	for x in "$(shell ./runtests.py -l|grep ^numba)"; do ./runtests.py "$x"; done ;
