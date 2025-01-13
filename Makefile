@@ -83,6 +83,9 @@ n311:
 n312:
 	conda create -n numba_3.12 python=3.12
 
+n313:
+	conda create -n numba_3.13 python=3.13
+
 # Create an environment based on conda-forge. Adjust Python accordingly.
 cfn:
 	conda create -n cf_numba_3.9 -c conda-forge python=3.9 gdb
