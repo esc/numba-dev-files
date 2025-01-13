@@ -53,13 +53,13 @@ conda-build:
 
 # Install dependencies.
 deps:
-	conda install  -c numba/label/dev llvmlite
-	conda install numpy pyyaml colorama scipy jinja2 cffi ipython flake8
-	if [ "$(shell uname -m)" = "arm64" ] ; then conda install clang_osx-arm64 clangxx_osx-arm64 ; fi
-	if [ "$(shell uname)" = "Darwin" ] ; then conda install clang_osx-64 clangxx_osx-64 ; fi
-	if [ "$(shell uname)" = "Linux" && "$(shell uname -i)" = "x86_64" ] ; then conda install gcc_linux-64 gxx_linux-64 ; fi
-	if [ "$(shell uname)" = "Linux" && "$(shell uname -i)" = "ppc64le" ] ; then conda install gcc_linux-ppc64le gxx_linux-ppc64le ; fi
-	conda install -c conda-forge ipdb
+	conda install  -y -c numba/label/dev llvmlite
+	conda install -y numpy pyyaml colorama scipy jinja2 cffi ipython flake8
+	if [ "$(shell uname -m)" = "arm64" ] ; then conda install -y clang_osx-arm64 clangxx_osx-arm64 ; fi
+	if [ "$(shell uname)" = "Darwin" ] ; then conda install -y clang_osx-64 clangxx_osx-64 ; fi
+	if [ "$(shell uname)" = "Linux" && "$(shell uname -i)" = "x86_64" ] ; then conda install -y gcc_linux-64 gxx_linux-64 ; fi
+	if [ "$(shell uname)" = "Linux" && "$(shell uname -i)" = "ppc64le" ] ; then conda install -y gcc_linux-ppc64le gxx_linux-ppc64le ; fi
+	conda install -y -c conda-forge ipdb
 	pip install pre-commit git-spindle
 	# conda install llvm-openmp intel-openmp
 
