@@ -27,9 +27,17 @@ and `~/llvmlite`, which must always remain on `main` as base reference.
   Use Python 3.14 unless the PR gives a reason not to.
 - For dependency inspiration see
   https://github.com/esc/numba-dev-files/blob/master/Makefile
-- Invoke the environment's interpreter directly, e.g.
-  `~/miniconda3/envs/pr-review-PROJECT-PR/bin/python`.
-  Avoid `conda run`; it buffers and mangles output.
+- Run all Python commands through `conda run`, which executes the
+  environment's activation scripts. The compiler toolchain packages
+  (gcc/g++) rely on activation variables being set, so calling the
+  environment's interpreter directly does not work:
+
+  ```bash
+  conda run -n pr-review-PROJECT-PR --no-capture-output python ...
+  ```
+
+  Use `--no-capture-output` to keep output streaming; without it,
+  `conda run` buffers output.
 
 ## Isolation (multiple agents share this machine)
 
@@ -87,10 +95,12 @@ and `~/llvmlite`, which must always remain on `main` as base reference.
 - Build in the review environment:
 
   ```bash
-  ~/miniconda3/envs/pr-review-PROJECT-PR/bin/python -m pip install -vv -e .
+  conda run -n pr-review-PROJECT-PR --no-capture-output \
+      python -m pip install -vv -e .
   ```
 
-- Test: `numba.runtests` for Numba, `python -m llvmlite.tests` for llvmlite.
+- Test: `numba.runtests` for Numba, `python -m llvmlite.tests` for
+  llvmlite (all via `conda run`, as above).
   1. Run targeted tests for the changed areas first, e.g.
      `python -m numba.runtests numba.tests.test_foo -m <cores>`
   2. Then broader affected modules if the targeted tests pass.
